@@ -1,0 +1,230 @@
+#%RAML 1.0
+title: Booking API
+version: 1.0
+baseUri: https://rest.synatic.com/roamdev/booking
+mediaType: application/json
+
+types:
+  Booking:
+    type: object
+    properties:
+      Account_Id:
+        type: string
+        description: Salesforce Account Id
+        required: true
+        example: "001XXXXXXXXX"
+      Consultant_Email:
+        type: string
+        description: Email of the consultant
+        required: true
+        example: "consultant@company.com"
+      Quote_Reference:
+        type: string
+        description: Quote reference number
+        required: true
+        example: "REF-14534"
+      Passengers:
+        type: integer
+        description: Number of passengers
+        required: true
+        example: 4
+      TXN_Currency:
+        type: string
+        description: Transaction currency
+        required: true
+        example: "GBP"
+      Travel_Start_Date:
+        type: string
+        description: Start date of travel
+        required: true
+        pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
+        example: "2024-10-17"
+      Travel_End_Date:
+        type: string
+        description: End date of travel
+        required: true
+        pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
+        example: "2024-10-25"
+      Client_First_Name:
+        type: string
+        description: First name of the client
+        required: true
+        example: "John"
+      Client_Last_Name:
+        type: string
+        description: Last name of the client
+        required: true
+        example: "Smith"
+      Client_Email:
+        type: string
+        description: Email of the client
+        required: true
+        example: "test@person.com"
+      Itinerary_Link:
+        type: string
+        description: Link to the itinerary (optional)
+        required: false
+        example: "test.itinerarylink.com"
+
+  UpdateBooking:
+    type: object
+    properties:
+      Account_Id:
+        type: string
+        description: Salesforce Account Id
+        required: true
+        example: "001XXXXXXXXX"
+      Consultant_Email:
+        type: string
+        description: Email of the consultant
+        required: true
+        example: "dummy.consultant@company.com"
+      Booking_Id:
+        type: string
+        description: Booking reference number
+        required: true
+        example: "BKG-04551"
+      Quote_Reference:
+        type: string
+        description: Quote reference number
+        required: true
+        example: "TEST-98765"
+      Passengers:
+        type: integer
+        description: Number of passengers
+        required: true
+        example: 5
+      TXN_Currency:
+        type: string
+        description: Transaction currency
+        required: true
+        example: "EUR"
+      Travel_Start_Date:
+        type: string
+        description: Start date of travel
+        required: true
+        pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
+        example: "2024-11-15"
+      Travel_End_Date:
+        type: string
+        description: End date of travel
+        required: true
+        pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
+        example: "2024-11-30"
+      Client_First_Name:
+        type: string
+        description: First name of the client
+        required: true
+        example: "Michael"
+      Client_Last_Name:
+        type: string
+        description: Last name of the client
+        required: true
+        example: "Scott"
+      Client_Email:
+        type: string
+        description: Email of the client
+        required: true
+        example: "michael.scott@dundermifflin.com"
+      Itinerary_Link:
+        type: string
+        description: Link to the itinerary (optional)
+        required: false
+        example: "test.itinerarylink.com"
+
+# Create Booking
+/create:
+  description: Create a new booking with the provided details.
+  post:
+    body:
+      application/json:
+        type: Booking
+
+        examples:
+            create-booking-request: |
+                {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "dummy.consultant@company.com",
+                    "Quote_Reference": "TEST-12345",
+                    "Passengers": 3,
+                    "TXN_Currency": "USD",
+                    "Travel_Start_Date": "2024-12-01",
+                    "Travel_End_Date": "2024-12-10",
+                    "Client_First_Name": "Jane",
+                    "Client_Last_Name": "Doe",
+                    "Client_Email": "test.client@domain.com",
+                    "Itinerary_Link": "test.itinerarylink.com"
+                }
+
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: Indicates whether the booking was successful
+              message:
+                type: string
+                description: Success or failure message
+            examples:
+              example 1: |
+                {
+                  "success": true,
+                  "message": "Booking has successfully been created."
+                }
+              example 2: |
+                {
+                  "success": false,
+                  "message": "The account id listed as a parameter in the request is not related to an account in Roam."
+                }
+
+# Update Booking
+/update:
+  description: Update an existing booking with the provided details.
+  post:
+    body:
+      application/json:
+        type: UpdateBooking
+
+        examples:
+            update-booking-request: |
+                {
+                    "Booking_Id": "BKG-04551",
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "dummy.consultant@company.com",
+                    "Quote_Reference": "TEST-98765",
+                    "Passengers": 5,
+                    "TXN_Currency": "EUR",
+                    "Travel_Start_Date": "2024-11-15",
+                    "Travel_End_Date": "2024-11-30",
+                    "Client_First_Name": "Michael",
+                    "Client_Last_Name": "Scott",
+                    "Client_Email": "michael.scott@dundermifflin.com",
+                    "Itinerary_Link": "test.itinerarylink.com"
+                }
+
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: Indicates whether the booking update was successful
+              message:
+                type: string
+                description: Success or failure message
+            examples:
+              example 1: |
+                {
+                  "success": true,
+                  "message": "Booking BKG-04551 has successfully been updated."
+                } 
+              example 2: |
+                {
+                  "success": false,
+                  "message": "The account id listed as a parameter in the request is not related to an account in Roam."
+                }

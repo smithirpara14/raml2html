@@ -1,68 +1,135 @@
 #%RAML 1.0
-title: Hello world # required title
-version: 1
-baseUri: http://example.com/{version}
-documentation:
-  - title: Welcome
-    content: |
-      Welcome to the Example Documentation. The Example API allows you
-      to do stuff. See also [example.com](https://www.example.com).
-  - title: Chapter two
-    content: |
-      More content here. Including **bold** text!
+title: Booking API
+version: 1.0
+baseUri: https://rest.synatic.com/roamdev/booking
+mediaType: application/json
 
-/helloworld: # optional resource
-  description: This is the top level description for /helloworld.
+/create:
+  description: Create a new booking with the provided details.
+  post:
+    body:
+      application/json:
+        type: object
+        properties:
+          Account_Id:
+            type: string
+            description: Salesforce Account Id
+            example: "001XXXXXXXXX"
+          Consultant_Email:
+            type: string
+            description: Email of the consultant
+            example: "consultant@company.com"
+          Quote_Reference:
+            type: string
+            description: Quote reference number
+            example: "REF-14534"
+          Passengers:
+            type: integer
+            description: Number of passengers
+            example: 4
+          TXN_Currency:
+            type: string
+            description: Transaction currency
+            example: "GBP"
+          Travel_Start_Date:
+            type: date
+            description: Start date of travel
+            example: "2024-10-17"
+          Travel_End_Date:
+            type: date
+            description: End date of travel
+            example: "2024-10-25"
+          Client_First_Name:
+            type: string
+            description: First name of the client
+            example: "John"
+          Client_Last_Name:
+            type: string
+            description: Last name of the client
+            example: "Smith"
+          Client_Email:
+            type: string
+            description: Email of the client
+            example: "test@person.com"
+          Itinerary_Link:
+            type: string
+            required: false
+            description: Link to the itinerary (optional)
+            example: "test.itinerarylink.com"
 
-  get: # HTTP method declaration
-    responses: # declare a response
-      200: # HTTP status code
-        body: # declare content of response
-          application/json: # media type
-            type: | # structural definition of a response (schema or type)
-              {
-                "title": "Hello world Response",
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string"
-                  }
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: Indicates whether the booking was successful
+              message:
+                type: string
+                description: Success or failure message
+            examples:
+              example 1: |
+                {
+                  sucess: true,
+                  message: "Booking has successfully been created."     
                 }
-              }
-            example: # example how a response looks like
-              {
-                "message": "Hello world"
-              }
-  /test:
-    displayName: TEST
-    get:
-      description: a sub resource
+              example 2: |
+                {
+                  sucess: false,
+                  message: "The account id listed as a parameter in the request is not related to an account in Roam."    
+                }
 
-  /{id}:
-    uriParameters:
-      id:
-        type: string
-        description: account identifier
-        minLength: 1
-        maxLength: 10
+/update:
+  description: Update an existing booking with the provided details.
+  post:
+    body:
+      application/json:
+        type: object
+        properties:
+          Account_Id:
+            type: string
+            description: Salesforce Account Id
+            example: "0014J00000GuIf0QAF"
+          Consultant_Email:
+            type: string
+            description: Email of the consultant
+            example: "oliver@roampayments.com"
+          Booking_Id:
+            type: string
+            description: Booking reference number
+            example: "BKG-04551"
+          Passengers:
+            type: integer
+            description: Number of passengers
+            example: 2
+          TXN_Currency:
+            type: string
+            description: Transaction currency
+            example: "GBP"
 
-    get:
-      headers:
-        Authorization:
-          type: string
-          description: Basic authentication header
-          example: |
-            Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
-
-    put:
-      body:
-        application/x-www-form-urlencoded:
-          properties:
-            name:
-              description: name on account
-              type: string
-              examples:
-                example1: Naruto Uzumaki
-                example2: Kevin Renskers
-            gender:
-              enum: ["male", "female"]
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: Indicates whether the booking update was successful
+              message:
+                type: string
+                description: Success or failure message
+            examples:
+              example 1: |
+                {
+                  sucess: true,
+                  message: "Booking has successfully been updated."    
+                } 
+              example 2: |
+                {
+                  sucess: false,
+                  message: "The account id listed as a parameter in the request is not related to an account in Roam."    
+                }             
+      
