@@ -1,176 +1,372 @@
-<!DOCTYPE HTML><html><head><title>Booking API</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="generator" content="https://github.com/raml2html/raml2html 7.8.0"><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css"><script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script><script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script><script type="text/javascript">
-      $(document).ready(function() {
-  $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
-    hljs.highlightBlock(block);
-  });
+<!DOCTYPE HTML>
+<html>
 
-  $('[data-toggle]').click(function() {
-    var selector = $(this).data('target') + ' pre code';
-    $(selector).each(function(i, block) {
-      hljs.highlightBlock(block);
+<head>
+  <title>Booking API</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="generator" content="https://github.com/raml2html/raml2html 7.8.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function (i, block) {
+        hljs.highlightBlock(block);
+      });
+
+      $('[data-toggle]').click(function () {
+        var selector = $(this).data('target') + ' pre code';
+        $(selector).each(function (i, block) {
+          hljs.highlightBlock(block);
+        });
+      });
+
+      // open modal on hashes like #_action_get
+      $(window).bind('hashchange', function (e) {
+        var anchor_id = document.location.hash.substr(1); //strip #
+        var element = $('#' + anchor_id);
+
+        // do we have such element + is it a modal?  --> show it
+        if (element.length && element.hasClass('modal')) {
+          element.modal('show');
+        }
+      });
+
+      // execute hashchange on first page load
+      $(window).trigger('hashchange');
+
+      // remove url fragment on modal hide
+      $('.modal').on('hidden.bs.modal', function () {
+        try {
+          if (history && history.replaceState) {
+            history.replaceState(null, null, ' ');
+          }
+        } catch (e) { }
+      });
     });
-  });
-
-  // open modal on hashes like #_action_get
-  $(window).bind('hashchange', function(e) {
-    var anchor_id = document.location.hash.substr(1); //strip #
-    var element = $('#' + anchor_id);
-
-    // do we have such element + is it a modal?  --> show it
-    if (element.length && element.hasClass('modal')) {
-      element.modal('show');
+  </script>
+  <style>
+    .hljs {
+      background: transparent;
     }
-  });
 
-  // execute hashchange on first page load
-  $(window).trigger('hashchange');
+    .parent {
+      color: #999;
+    }
 
-  // remove url fragment on modal hide
-  $('.modal').on('hidden.bs.modal', function() {
-    try {
-      if (history && history.replaceState) {
-          history.replaceState({}, '', '#');
-      }
-    } catch(e) {}
-  });
-});
-    </script><style>
-      .hljs {
-  background: transparent;
-}
-.parent {
-  color: #999;
-}
-.list-group-item > .badge {
-  float: none;
-  margin-right: 6px;
-}
-.panel-title > .methods {
-  float: right;
-}
-.badge {
-  border-radius: 0;
-  text-transform: uppercase;
-  width: 70px;
-  font-weight: normal;
-  color: #f3f3f6;
-  line-height: normal;
-}
-.badge_get {
-  background-color: #63a8e2;
-}
-.badge_post {
-  background-color: #6cbd7d;
-}
-.badge_put {
-  background-color: #22bac4;
-}
-.badge_delete {
-  background-color: #d26460;
-}
-.badge_patch {
-  background-color: #ccc444;
-}
-.list-group,
-.panel-group {
-  margin-bottom: 0;
-}
-.panel-group .panel+.panel-white {
-  margin-top: 0;
-}
-.panel-group .panel-white {
-  border-bottom: 1px solid #F5F5F5;
-  border-radius: 0;
-}
-.panel-white:last-child {
-  border-bottom-color: white;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.panel-white .panel-heading {
-  background: white;
-}
-.tab-pane ul {
-  padding-left: 2em;
-}
-.tab-pane h1 {
-  font-size: 1.3em;
-}
-.tab-pane h2 {
-  font-size: 1.2em;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #ddd;
-}
-.tab-pane h3 {
-  font-size: 1.1em;
-}
-.tab-content {
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  padding: 10px;
-}
-#sidebar {
-  margin-top: 30px;
-  padding-right: 5px;
-  overflow: auto;
-  height: 90%;
-}
-.top-resource-description {
-  border-bottom: 1px solid #ddd;
-  background: #fcfcfc;
-  padding: 15px 15px 0 15px;
-  margin: -15px -15px 10px -15px;
-}
-.resource-description {
-  border-bottom: 1px solid #fcfcfc;
-  background: #fcfcfc;
-  padding: 15px 15px 0 15px;
-  margin: -15px -15px 10px -15px;
-}
-.resource-description p:last-child {
-  margin: 0;
-}
-.list-group .badge {
-  float: left;
-}
-.method_description {
-  margin-left: 85px;
-}
-.method_description p:last-child {
-  margin: 0;
-}
-.list-group-item {
-  cursor: pointer;
-}
-.list-group-item:hover {
-  background-color: #f5f5f5;
-}
-pre code {
-  overflow: auto;
-  word-wrap: normal;
-  white-space: pre;
-}
-.items {
-  background: #f5f5f5;
-  color: #333;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 9.5px;
-  margin: 0 0 10px;
-  font-size: 13px;
-  line-height: 1.42857143;
-}
-.examples {
-  margin-left: 0.5em;
-}
-.resource-modal li > ul {
-  margin-bottom: 1em;
-}
-.required {
-  color: #f00;
-}
-    </style></head><body data-spy="scroll" data-target="#sidebar"><div class="container"><div class="row"><div class="col-md-9" role="main"><div class="page-header"><h1>Booking API <small>version 1.0</small></h1><p>https://rest.synatic.com/roamdev/booking</p></div><div class="panel panel-default"><div class="panel-heading"><h3 id="create" class="panel-title">Create Booking</h3></div><div class="panel-body"><div class="top-resource-description"><p>Create a new booking with the provided details.</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_create"><span class="parent"></span>/create</a> <span class="methods"><a href="#create_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_create" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#create_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new booking with the provided details.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="create_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/create</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new booking with the provided details.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#create_post_request" data-toggle="tab">Request</a></li><li><a href="#create_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="create_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em><p>Salesforce Account Id</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>001XXXXXXXXX</code></pre></div></li><li><strong>Consultant_Email</strong>: <em><span class="required">required</span>(string)</em><p>Email of the consultant</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>consultant@company.com</code></pre></div></li><li><strong>Quote_Reference</strong>: <em><span class="required">required</span>(string)</em><p>Quote reference number</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>REF-14534</code></pre></div></li><li><strong>Passengers</strong>: <em><span class="required">required</span>(integer)</em><p>Number of passengers</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>4</code></pre></div></li><li><strong>TXN_Currency</strong>: <em><span class="required">required</span>(string)</em><p>Transaction currency</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>GBP</code></pre></div></li><li><strong>Travel_Start_Date</strong>: <em><span class="required">required</span>(string - pattern: ^\d{4}-\d{2}-\d{2}$)</em><p>Start date of travel</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>2024-10-17</code></pre></div></li><li><strong>Travel_End_Date</strong>: <em><span class="required">required</span>(string - pattern: ^\d{4}-\d{2}-\d{2}$)</em><p>End date of travel</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>2024-10-25</code></pre></div></li><li><strong>Client_First_Name</strong>: <em><span class="required">required</span>(string)</em><p>First name of the client</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>Jane</code></pre></div></li><li><strong>Client_Last_Name</strong>: <em><span class="required">required</span>(string)</em><p>Last name of the client</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>Doe</code></pre></div></li><li><strong>Client_Email</strong>: <em><span class="required">required</span>(string)</em><p>Email of the client</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>jane.doe@example.com</code></pre></div></li><li><strong>Itinerary_Link</strong>: <em>(string)</em><p>Link to the itinerary (optional)</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>test.itinerarylink.com</code></pre></div></li></ul><p><strong>Example</strong>:</p><div class="examples"><p><strong>create-booking-request</strong>:<br></p><pre><code>{
+    .list-group-item>.badge {
+      float: none;
+      margin-right: 6px;
+    }
+
+    .panel-title>.methods {
+      float: right;
+    }
+
+    .badge {
+      border-radius: 0;
+      text-transform: uppercase;
+      width: 70px;
+      font-weight: normal;
+      color: #f3f3f6;
+      line-height: normal;
+    }
+
+    .badge_get {
+      background-color: #63a8e2;
+    }
+
+    .badge_post {
+      background-color: #6cbd7d;
+    }
+
+    .badge_put {
+      background-color: #22bac4;
+    }
+
+    .badge_delete {
+      background-color: #d26460;
+    }
+
+    .badge_patch {
+      background-color: #ccc444;
+    }
+
+    .list-group,
+    .panel-group {
+      margin-bottom: 0;
+    }
+
+    .panel-group .panel+.panel-white {
+      margin-top: 0;
+    }
+
+    .panel-group .panel-white {
+      border-bottom: 1px solid #F5F5F5;
+      border-radius: 0;
+    }
+
+    .panel-white:last-child {
+      border-bottom-color: white;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+
+    .panel-white .panel-heading {
+      background: white;
+    }
+
+    .tab-pane ul {
+      padding-left: 2em;
+    }
+
+    .tab-pane h1 {
+      font-size: 1.3em;
+    }
+
+    .tab-pane h2 {
+      font-size: 1.2em;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .tab-pane h3 {
+      font-size: 1.1em;
+    }
+
+    .tab-content {
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+    }
+
+    #sidebar {
+      margin-top: 30px;
+      padding-right: 5px;
+      overflow: auto;
+      height: 90%;
+    }
+
+    .top-resource-description {
+      border-bottom: 1px solid #ddd;
+      background: #fcfcfc;
+      padding: 15px 15px 0 15px;
+      margin: -15px -15px 10px -15px;
+    }
+
+    .resource-description {
+      border-bottom: 1px solid #fcfcfc;
+      background: #fcfcfc;
+      padding: 15px 15px 0 15px;
+      margin: -15px -15px 10px -15px;
+    }
+
+    .resource-description p:last-child {
+      margin: 0;
+    }
+
+    .list-group .badge {
+      float: left;
+    }
+
+    .method_description {
+      margin-left: 85px;
+    }
+
+    .method_description p:last-child {
+      margin: 0;
+    }
+
+    .list-group-item {
+      cursor: pointer;
+    }
+
+    .list-group-item:hover {
+      background-color: #f5f5f5;
+    }
+
+    pre code {
+      overflow: auto;
+      word-wrap: normal;
+      white-space: pre;
+    }
+
+    .items {
+      background: #f5f5f5;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 9.5px;
+      margin: 0 0 10px;
+      font-size: 13px;
+      line-height: 1.42857143;
+    }
+
+    .examples {
+      margin-left: 0.5em;
+    }
+
+    .resource-modal li>ul {
+      margin-bottom: 1em;
+    }
+
+    .required {
+      color: #f00;
+    }
+  </style>
+</head>
+
+<body data-spy="scroll" data-target="#sidebar">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9" role="main">
+        <div class="page-header">
+          <h1>Booking API <small>version 1.0</small></h1>
+          <p>https://rest.synatic.com/roamdev/booking</p>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 id="create" class="panel-title">Create Booking</h3>
+          </div>
+          <div class="panel-body">
+            <div class="top-resource-description">
+              <p>Create a new booking with the provided details.</p>
+            </div>
+            <div class="panel-group">
+              <div class="panel panel-white resource-modal">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_create"><span
+                        class="parent"></span>/create</a> <span class="methods"><a href="#create_post"><span
+                          class="badge badge_post">post</span></a></span></h4>
+                </div>
+                <div id="panel_create" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="list-group">
+                      <div onclick="window.location.href = '#create_post'" class="list-group-item"><span
+                          class="badge badge_post">post</span>
+                        <div class="method_description">
+                          <p>Create a new booking with the provided details.</p>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" tabindex="0" id="create_post">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header"><button type="button" class="close" data-dismiss="modal"
+                          aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span
+                            class="parent"></span>/create</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="alert alert-info">
+                          <p>Create a new booking with the provided details.</p>
+                        </div>
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a href="#create_post_request" data-toggle="tab">Request</a></li>
+                          <li><a href="#create_post_response" data-toggle="tab">Response</a></li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="create_post_request">
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p><strong>Properties</strong>
+                            <ul>
+                              <li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Salesforce Account Id</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>001XXXXXXXXX</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Consultant_Email</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>Email of the consultant</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>consultant@company.com</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Quote_Reference</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>Quote reference number</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>REF-14534</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Passengers</strong>: <em><span class="required">required</span>(integer)</em>
+                                <p>Number of passengers</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>4</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>TXN_Currency</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Transaction currency</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>GBP</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Travel_Start_Date</strong>: <em><span class="required">required</span>(string
+                                  - pattern: ^\d{4}-\d{2}-\d{2}$)</em>
+                                <p>Start date of travel</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>2024-10-17</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Travel_End_Date</strong>: <em><span class="required">required</span>(string -
+                                  pattern: ^\d{4}-\d{2}-\d{2}$)</em>
+                                <p>End date of travel</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>2024-10-25</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Client_First_Name</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>First name of the client</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>Jane</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Client_Last_Name</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>Last name of the client</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>Doe</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Client_Email</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Email of the client</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>jane.doe@example.com</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Itinerary_Link</strong>: <em>(string)</em>
+                                <p>Link to the itinerary (optional)</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>test.itinerarylink.com</code></pre>
+                                </div>
+                              </li>
+                            </ul>
+                            <p><strong>Example</strong>:</p>
+                            <div class="examples">
+                              <p><strong>create-booking-request</strong>:<br></p>
+                              <pre><code>{
     "Account_Id": "001XXXXXXXXX",
     "Consultant_Email": "consultant@company.com",
     "Quote_Reference": "TEST-12345",
@@ -183,7 +379,18 @@ pre code {
     "Client_Email": "jane.doe@example.com",
     "Itinerary_Link": "test.itinerarylink.com"
 }
-</code></pre></div></div><div class="tab-pane" id="create_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>successful_response</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="create_post_response">
+                            <h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2>
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p>
+                            <p><strong>Examples</strong>:</p>
+                            <div class="examples">
+                              <p><strong>successful_response</strong>:<br></p>
+                              <pre><code>{
   "success": true,
   "message": "Booking has successfully been created.",
   "Booking_Id": "BKG-00101",
@@ -203,11 +410,169 @@ pre code {
   "Travel_End_Date": "2024-12-10",
   "Itinerary_Link": null
 }
-</code></pre><p><strong>error_response</strong>:<br></p><pre><code>{
+</code></pre>
+                              <p><strong>error_response</strong>:<br></p>
+                              <pre><code>{
   "success": false,
   "message": "The account id listed as a parameter in the request is not related to an account in Roam."
 }
-</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="update" class="panel-title">Update Booking</h3></div><div class="panel-body"><div class="top-resource-description"><p>Update an existing booking with the provided details.</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_update"><span class="parent"></span>/update</a> <span class="methods"><a href="#update_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_update" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#update_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Update an existing booking with the provided details.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="update_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/update</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update an existing booking with the provided details.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#update_post_request" data-toggle="tab">Request</a></li><li><a href="#update_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="update_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em><p>Salesforce Account Id</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>001XXXXXXXXX</code></pre></div></li><li><strong>Consultant_Email</strong>: <em><span class="required">required</span>(string)</em><p>Email of the consultant</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>consultant@company.com</code></pre></div></li><li><strong>Booking_Id</strong>: <em><span class="required">required</span>(string)</em><p>Booking reference number</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>BKG-00101</code></pre></div></li><li><strong>Quote_Reference</strong>: <em><span class="required">required</span>(string)</em><p>Quote reference number</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>TEST-98765</code></pre></div></li><li><strong>Passengers</strong>: <em><span class="required">required</span>(integer)</em><p>Number of passengers</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>5</code></pre></div></li><li><strong>TXN_Currency</strong>: <em><span class="required">required</span>(string)</em><p>Transaction currency</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>EUR</code></pre></div></li><li><strong>Travel_Start_Date</strong>: <em><span class="required">required</span>(string - pattern: ^\d{4}-\d{2}-\d{2}$)</em><p>Start date of travel</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>2024-11-15</code></pre></div></li><li><strong>Travel_End_Date</strong>: <em><span class="required">required</span>(string - pattern: ^\d{4}-\d{2}-\d{2}$)</em><p>End date of travel</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>2024-11-30</code></pre></div></li><li><strong>Client_First_Name</strong>: <em><span class="required">required</span>(string)</em><p>First name of the client</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>Jane</code></pre></div></li><li><strong>Client_Last_Name</strong>: <em><span class="required">required</span>(string)</em><p>Last name of the client</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>Doe</code></pre></div></li><li><strong>Client_Email</strong>: <em><span class="required">required</span>(string)</em><p>Email of the client</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>jane.doe@example.com</code></pre></div></li><li><strong>Itinerary_Link</strong>: <em>(string)</em><p>Link to the itinerary (optional)</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>test.itinerarylink.com</code></pre></div></li></ul><p><strong>Example</strong>:</p><div class="examples"><p><strong>update-booking-request</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 id="update" class="panel-title">Update Booking</h3>
+          </div>
+          <div class="panel-body">
+            <div class="top-resource-description">
+              <p>Update an existing booking with the provided details.</p>
+            </div>
+            <div class="panel-group">
+              <div class="panel panel-white resource-modal">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_update"><span
+                        class="parent"></span>/update</a> <span class="methods"><a href="#update_post"><span
+                          class="badge badge_post">post</span></a></span></h4>
+                </div>
+                <div id="panel_update" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="list-group">
+                      <div onclick="window.location.href = '#update_post'" class="list-group-item"><span
+                          class="badge badge_post">post</span>
+                        <div class="method_description">
+                          <p>Update an existing booking with the provided details.</p>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" tabindex="0" id="update_post">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header"><button type="button" class="close" data-dismiss="modal"
+                          aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span
+                            class="parent"></span>/update</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="alert alert-info">
+                          <p>Update an existing booking with the provided details.</p>
+                        </div>
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a href="#update_post_request" data-toggle="tab">Request</a></li>
+                          <li><a href="#update_post_response" data-toggle="tab">Response</a></li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="update_post_request">
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p><strong>Properties</strong>
+                            <ul>
+                              <li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Salesforce Account Id</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>001XXXXXXXXX</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Consultant_Email</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>Email of the consultant</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>consultant@company.com</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Booking_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Booking reference number</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>BKG-00101</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Quote_Reference</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>Quote reference number</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>TEST-98765</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Passengers</strong>: <em><span class="required">required</span>(integer)</em>
+                                <p>Number of passengers</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>5</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>TXN_Currency</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Transaction currency</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>EUR</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Travel_Start_Date</strong>: <em><span class="required">required</span>(string
+                                  - pattern: ^\d{4}-\d{2}-\d{2}$)</em>
+                                <p>Start date of travel</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>2024-11-15</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Travel_End_Date</strong>: <em><span class="required">required</span>(string -
+                                  pattern: ^\d{4}-\d{2}-\d{2}$)</em>
+                                <p>End date of travel</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>2024-11-30</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Client_First_Name</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>First name of the client</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>Jane</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Client_Last_Name</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>Last name of the client</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>Doe</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Client_Email</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Email of the client</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>jane.doe@example.com</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Itinerary_Link</strong>: <em>(string)</em>
+                                <p>Link to the itinerary (optional)</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>test.itinerarylink.com</code></pre>
+                                </div>
+                              </li>
+                            </ul>
+                            <p><strong>Example</strong>:</p>
+                            <div class="examples">
+                              <p><strong>update-booking-request</strong>:<br></p>
+                              <pre><code>{
     "Booking_Id": "BKG-00101",
     "Account_Id": "001XXXXXXXXX",
     "Consultant_Email": "consultant@company.com",
@@ -221,7 +586,18 @@ pre code {
     "Client_Email": "jane.doe@example.com",
     "Itinerary_Link": "test.itinerarylink.com"
 }
-</code></pre></div></div><div class="tab-pane" id="update_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>successful_response</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="update_post_response">
+                            <h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2>
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p>
+                            <p><strong>Examples</strong>:</p>
+                            <div class="examples">
+                              <p><strong>successful_response</strong>:<br></p>
+                              <pre><code>{
   "success": true,
   "message": "Booking has successfully been updated.",
   "Booking_Id": "BKG-00101",
@@ -241,17 +617,125 @@ pre code {
   "Travel_End_Date": "2024-11-30",
   "Itinerary_Link": null
 }
-</code></pre><p><strong>error_response</strong>:<br></p><pre><code>{
+</code></pre>
+                              <p><strong>error_response</strong>:<br></p>
+                              <pre><code>{
   "success": false,
   "message": "The booking ID listed in the request could not be found."
 }
-</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="proceeding" class="panel-title">Proceeding</h3></div><div class="panel-body"><div class="top-resource-description"><p>Update the proceeding status of a booking.</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_proceeding"><span class="parent"></span>/proceeding</a> <span class="methods"><a href="#proceeding_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_proceeding" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#proceeding_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Update the proceeding status of a booking.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="proceeding_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/proceeding</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the proceeding status of a booking.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#proceeding_post_request" data-toggle="tab">Request</a></li><li><a href="#proceeding_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="proceeding_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em><p>Salesforce Account Id</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>001XXXXXXXXX</code></pre></div></li><li><strong>Consultant_Email</strong>: <em><span class="required">required</span>(string)</em><p>Email of the consultant</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>consultant@example.com</code></pre></div></li><li><strong>Proceeding</strong>: <em><span class="required">required</span>(boolean)</em><p>Indicates if the booking is proceeding</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>true</code></pre></div></li><li><strong>Booking_Id</strong>: <em><span class="required">required</span>(string)</em><p>Booking reference number</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>BKG-00101</code></pre></div></li></ul><p><strong>Example</strong>:</p><div class="examples"><p><strong>request_example</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 id="proceeding" class="panel-title">Proceeding</h3>
+          </div>
+          <div class="panel-body">
+            <div class="top-resource-description">
+              <p>Update the proceeding status of a booking.</p>
+            </div>
+            <div class="panel-group">
+              <div class="panel panel-white resource-modal">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_proceeding"><span
+                        class="parent"></span>/proceeding</a> <span class="methods"><a href="#proceeding_post"><span
+                          class="badge badge_post">post</span></a></span></h4>
+                </div>
+                <div id="panel_proceeding" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="list-group">
+                      <div onclick="window.location.href = '#proceeding_post'" class="list-group-item"><span
+                          class="badge badge_post">post</span>
+                        <div class="method_description">
+                          <p>Update the proceeding status of a booking.</p>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" tabindex="0" id="proceeding_post">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header"><button type="button" class="close" data-dismiss="modal"
+                          aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span
+                            class="parent"></span>/proceeding</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="alert alert-info">
+                          <p>Update the proceeding status of a booking.</p>
+                        </div>
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a href="#proceeding_post_request" data-toggle="tab">Request</a></li>
+                          <li><a href="#proceeding_post_response" data-toggle="tab">Response</a></li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="proceeding_post_request">
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p><strong>Properties</strong>
+                            <ul>
+                              <li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Salesforce Account Id</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>001XXXXXXXXX</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Consultant_Email</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>Email of the consultant</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>consultant@example.com</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Proceeding</strong>: <em><span class="required">required</span>(boolean)</em>
+                                <p>Indicates if the booking is proceeding</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>true</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Booking_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Booking reference number</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>BKG-00101</code></pre>
+                                </div>
+                              </li>
+                            </ul>
+                            <p><strong>Example</strong>:</p>
+                            <div class="examples">
+                              <p><strong>request_example</strong>:<br></p>
+                              <pre><code>{
   "Account_Id": "001XXXXXXXXX",
   "Consultant_Email": "consultant@example.com",
   "Proceeding": true,
   "Booking_Id": "BKG-00101"
 }
-</code></pre></div></div><div class="tab-pane" id="proceeding_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>successful_response</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="proceeding_post_response">
+                            <h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2>
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p>
+                            <p><strong>Examples</strong>:</p>
+                            <div class="examples">
+                              <p><strong>successful_response</strong>:<br></p>
+                              <pre><code>{
   "success": true,
   "message": "Booking proceeding has successfully been updated.",
   "Booking_Id": "BKG-00101",
@@ -271,17 +755,126 @@ pre code {
   "Travel_End_Date": "2024-12-10",
   "Itinerary_Link": null
 }
-</code></pre><p><strong>error_response</strong>:<br></p><pre><code>{
+</code></pre>
+                              <p><strong>error_response</strong>:<br></p>
+                              <pre><code>{
   "success": false,
   "message": "The booking cannot be edited as the FX rates are not valid."
 }
-</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="refreshrates" class="panel-title">Refresh Rates</h3></div><div class="panel-body"><div class="top-resource-description"><p>Refresh rates for a booking.</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_refreshrates"><span class="parent"></span>/refreshrates</a> <span class="methods"><a href="#refreshrates_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_refreshrates" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#refreshrates_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Refresh rates for a booking.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="refreshrates_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/refreshrates</h4></div><div class="modal-body"><div class="alert alert-info"><p>Refresh rates for a booking.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#refreshrates_post_request" data-toggle="tab">Request</a></li><li><a href="#refreshrates_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="refreshrates_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em><p>Salesforce Account Id</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>001XXXXXXXXX</code></pre></div></li><li><strong>Consultant_Email</strong>: <em><span class="required">required</span>(string)</em><p>Email of the consultant</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>consultant@example.com</code></pre></div></li><li><strong>Booking_Id</strong>: <em><span class="required">required</span>(string)</em><p>Booking reference number</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>BKG-00101</code></pre></div></li><li><strong>Force_Rate_Refresh</strong>: <em><span class="required">required</span>(boolean)</em><p>Indicates if the force rate refresh is requested</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>true</code></pre></div></li></ul><p><strong>Example</strong>:</p><div class="examples"><p><strong>request_example</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 id="refreshrates" class="panel-title">Refresh Rates</h3>
+          </div>
+          <div class="panel-body">
+            <div class="top-resource-description">
+              <p>Refresh rates for a booking.</p>
+            </div>
+            <div class="panel-group">
+              <div class="panel panel-white resource-modal">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_refreshrates"><span
+                        class="parent"></span>/refreshrates</a> <span class="methods"><a href="#refreshrates_post"><span
+                          class="badge badge_post">post</span></a></span></h4>
+                </div>
+                <div id="panel_refreshrates" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="list-group">
+                      <div onclick="window.location.href = '#refreshrates_post'" class="list-group-item"><span
+                          class="badge badge_post">post</span>
+                        <div class="method_description">
+                          <p>Refresh rates for a booking.</p>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" tabindex="0" id="refreshrates_post">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header"><button type="button" class="close" data-dismiss="modal"
+                          aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span
+                            class="parent"></span>/refreshrates</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="alert alert-info">
+                          <p>Refresh rates for a booking.</p>
+                        </div>
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a href="#refreshrates_post_request" data-toggle="tab">Request</a></li>
+                          <li><a href="#refreshrates_post_response" data-toggle="tab">Response</a></li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="refreshrates_post_request">
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p><strong>Properties</strong>
+                            <ul>
+                              <li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Salesforce Account Id</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>001XXXXXXXXX</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Consultant_Email</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>Email of the consultant</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>consultant@example.com</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Booking_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Booking reference number</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>BKG-00101</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Force_Rate_Refresh</strong>: <em><span
+                                    class="required">required</span>(boolean)</em>
+                                <p>Indicates if the force rate refresh is requested</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>true</code></pre>
+                                </div>
+                              </li>
+                            </ul>
+                            <p><strong>Example</strong>:</p>
+                            <div class="examples">
+                              <p><strong>request_example</strong>:<br></p>
+                              <pre><code>{
   "Account_Id": "001XXXXXXXXX",
   "Consultant_Email": "consultant@example.com",
   "Booking_Id": "BKG-00101",
   "Force_Rate_Refresh": true
 }
-</code></pre></div></div><div class="tab-pane" id="refreshrates_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>successful_response</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="refreshrates_post_response">
+                            <h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2>
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p>
+                            <p><strong>Examples</strong>:</p>
+                            <div class="examples">
+                              <p><strong>successful_response</strong>:<br></p>
+                              <pre><code>{
   "success": true,
   "message": "Booking rates have sucessfully been refreshed.",
   "Booking_Id": "BKG-00101",
@@ -301,16 +894,117 @@ pre code {
   "Travel_End_Date": "2024-12-10",
   "Itinerary_Link": null
 }
-</code></pre><p><strong>error_response</strong>:<br></p><pre><code>{
+</code></pre>
+                              <p><strong>error_response</strong>:<br></p>
+                              <pre><code>{
   "success": false,
   "message": "The booking cannot be edited as it is marked as proceeding."
 }
-</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="getdetails" class="panel-title">Get Booking Details</h3></div><div class="panel-body"><div class="top-resource-description"><p>Retrieve details for a specific booking.</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_getdetails"><span class="parent"></span>/getdetails</a> <span class="methods"><a href="#getdetails_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_getdetails" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#getdetails_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Retrieve details for a specific booking.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="getdetails_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/getdetails</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve details for a specific booking.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#getdetails_post_request" data-toggle="tab">Request</a></li><li><a href="#getdetails_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="getdetails_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em><p>Salesforce Account Id</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>001XXXXXXXXX</code></pre></div></li><li><strong>Consultant_Email</strong>: <em><span class="required">required</span>(string)</em><p>Email of the consultant</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>consultant@example.com</code></pre></div></li><li><strong>Booking_Id</strong>: <em><span class="required">required</span>(string)</em><p>Booking reference number</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>BKG-00101</code></pre></div></li></ul><p><strong>Example</strong>:</p><div class="examples"><p><strong>request_example</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 id="getdetails" class="panel-title">Get Booking Details</h3>
+          </div>
+          <div class="panel-body">
+            <div class="top-resource-description">
+              <p>Retrieve details for a specific booking.</p>
+            </div>
+            <div class="panel-group">
+              <div class="panel panel-white resource-modal">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_getdetails"><span
+                        class="parent"></span>/getdetails</a> <span class="methods"><a href="#getdetails_post"><span
+                          class="badge badge_post">post</span></a></span></h4>
+                </div>
+                <div id="panel_getdetails" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="list-group">
+                      <div onclick="window.location.href = '#getdetails_post'" class="list-group-item"><span
+                          class="badge badge_post">post</span>
+                        <div class="method_description">
+                          <p>Retrieve details for a specific booking.</p>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" tabindex="0" id="getdetails_post">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header"><button type="button" class="close" data-dismiss="modal"
+                          aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span
+                            class="parent"></span>/getdetails</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="alert alert-info">
+                          <p>Retrieve details for a specific booking.</p>
+                        </div>
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a href="#getdetails_post_request" data-toggle="tab">Request</a></li>
+                          <li><a href="#getdetails_post_response" data-toggle="tab">Response</a></li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="getdetails_post_request">
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p><strong>Properties</strong>
+                            <ul>
+                              <li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Salesforce Account Id</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>001XXXXXXXXX</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Consultant_Email</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>Email of the consultant</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>consultant@example.com</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Booking_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Booking reference number</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>BKG-00101</code></pre>
+                                </div>
+                              </li>
+                            </ul>
+                            <p><strong>Example</strong>:</p>
+                            <div class="examples">
+                              <p><strong>request_example</strong>:<br></p>
+                              <pre><code>{
   "Account_Id": "001XXXXXXXXX",
   "Consultant_Email": "consultant@example.com",
   "Booking_Id": "BKG-00101"
 }
-</code></pre></div></div><div class="tab-pane" id="getdetails_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>successful_response</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="getdetails_post_response">
+                            <h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2>
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p>
+                            <p><strong>Examples</strong>:</p>
+                            <div class="examples">
+                              <p><strong>successful_response</strong>:<br></p>
+                              <pre><code>{
   "success": true,
   "message": "Booking details have successfully been returned.",
   "Booking_Id": "BKG-00101",
@@ -358,16 +1052,117 @@ pre code {
     }
   ]
 }
-</code></pre><p><strong>error_response</strong>:<br></p><pre><code>{
+</code></pre>
+                              <p><strong>error_response</strong>:<br></p>
+                              <pre><code>{
   "success": false,
   "message": "The booking id listed as a parameter in the request is not related to this account in Roam."
 }
-</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="getchrages" class="panel-title">Get Charges</h3></div><div class="panel-body"><div class="top-resource-description"><p>Retrieve all charges related to a specific booking.</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_getchrages"><span class="parent"></span>/getchrages</a> <span class="methods"><a href="#getchrages_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_getchrages" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#getchrages_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Retrieve all charges related to a specific booking.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="getchrages_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/getchrages</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve all charges related to a specific booking.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#getchrages_post_request" data-toggle="tab">Request</a></li><li><a href="#getchrages_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="getchrages_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em><p>Salesforce Account Id</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>001XXXXXXXXX</code></pre></div></li><li><strong>Consultant_Email</strong>: <em><span class="required">required</span>(string)</em><p>Email of the consultant</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>consultant@example.com</code></pre></div></li><li><strong>Booking_Id</strong>: <em><span class="required">required</span>(string)</em><p>Booking reference number</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>BKG-00101</code></pre></div></li></ul><p><strong>Example</strong>:</p><div class="examples"><p><strong>request_example</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 id="getchrages" class="panel-title">Get Charges</h3>
+          </div>
+          <div class="panel-body">
+            <div class="top-resource-description">
+              <p>Retrieve all charges related to a specific booking.</p>
+            </div>
+            <div class="panel-group">
+              <div class="panel panel-white resource-modal">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_getchrages"><span
+                        class="parent"></span>/getchrages</a> <span class="methods"><a href="#getchrages_post"><span
+                          class="badge badge_post">post</span></a></span></h4>
+                </div>
+                <div id="panel_getchrages" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="list-group">
+                      <div onclick="window.location.href = '#getchrages_post'" class="list-group-item"><span
+                          class="badge badge_post">post</span>
+                        <div class="method_description">
+                          <p>Retrieve all charges related to a specific booking.</p>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" tabindex="0" id="getchrages_post">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header"><button type="button" class="close" data-dismiss="modal"
+                          aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span
+                            class="parent"></span>/getchrages</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="alert alert-info">
+                          <p>Retrieve all charges related to a specific booking.</p>
+                        </div>
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a href="#getchrages_post_request" data-toggle="tab">Request</a></li>
+                          <li><a href="#getchrages_post_response" data-toggle="tab">Response</a></li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="getchrages_post_request">
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p><strong>Properties</strong>
+                            <ul>
+                              <li><strong>Account_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Salesforce Account Id</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>001XXXXXXXXX</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Consultant_Email</strong>: <em><span
+                                    class="required">required</span>(string)</em>
+                                <p>Email of the consultant</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>consultant@example.com</code></pre>
+                                </div>
+                              </li>
+                              <li><strong>Booking_Id</strong>: <em><span class="required">required</span>(string)</em>
+                                <p>Booking reference number</p>
+                                <p><strong>Example</strong>:</p>
+                                <div class="examples">
+                                  <pre><code>BKG-00101</code></pre>
+                                </div>
+                              </li>
+                            </ul>
+                            <p><strong>Example</strong>:</p>
+                            <div class="examples">
+                              <p><strong>request_example</strong>:<br></p>
+                              <pre><code>{
   "Account_Id": "001XXXXXXXXX",
   "Consultant_Email": "consultant@example.com",
   "Booking_Id": "BKG-00101"
 }
-</code></pre></div></div><div class="tab-pane" id="getchrages_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><p><strong>Examples</strong>:</p><div class="examples"><p><strong>successful_response</strong>:<br></p><pre><code>{
+</code></pre>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="getchrages_post_response">
+                            <h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2>
+                            <h3>Body</h3>
+                            <p><strong>Media type</strong>: application/json</p>
+                            <p><strong>Type</strong>: object</p>
+                            <p><strong>Examples</strong>:</p>
+                            <div class="examples">
+                              <p><strong>successful_response</strong>:<br></p>
+                              <pre><code>{
   "success": true,
   "message": "Charge details have successfully been returned.",
   "Charges":[
@@ -399,8 +1194,39 @@ pre code {
     }
   ]
 }
-</code></pre><p><strong>error_response</strong>:<br></p><pre><code>{
+</code></pre>
+                              <p><strong>error_response</strong>:<br></p>
+                              <pre><code>{
   "success": false,
   "message": "The booking id listed as a parameter in the request is not related to this account in Roam."
 }
-</code></pre></div></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#create">Create Booking</a></li><li><a href="#update">Update Booking</a></li><li><a href="#proceeding">Proceeding</a></li><li><a href="#refreshrates">Refresh Rates</a></li><li><a href="#getdetails">Get Booking Details</a></li><li><a href="#getchrages">Get Charges</a></li></ul></div></div></div></div></body></html>
+</code></pre>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div id="sidebar" class="hidden-print affix" role="complementary">
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="#create">Create Booking</a></li>
+            <li><a href="#update">Update Booking</a></li>
+            <li><a href="#proceeding">Proceeding</a></li>
+            <li><a href="#refreshrates">Refresh Rates</a></li>
+            <li><a href="#getdetails">Get Booking Details</a></li>
+            <li><a href="#getchrages">Get Charges</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
