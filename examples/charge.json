@@ -1,0 +1,672 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Charge API",
+      "version": "1.0"
+    },
+    "host": "rest.synatic.com",
+    "basePath": "/roamdev/charge",
+    "schemes": [
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/create": {
+        "post": {
+          "description": "Creates a new charge for the specified booking.",
+          "operationId": "POST_create",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Charge has successfully been created.",
+                    "Charge_Id": "CHG-00101",
+                    "TXN_Total": 1500,
+                    "BSE_Total": 150,
+                    "BSE_Currency": "ZAR",
+                    "Type": "Balance",
+                    "Due_Date": "2024-02-09",
+                    "Beneficiary_1_Id": "BENIF001",
+                    "Beneficiary_2_Id": "BENIF002",
+                    "Beneficiary_3_Id": "BENIF003",
+                    "Supplier_1_Amount": 1300,
+                    "Supplier_2_Amount": 150,
+                    "Supplier_3_Amount": 50,
+                    "Booked": true,
+                    "Completed": false,
+                    "Paid_Out": true
+                  },
+                  "acount_not_found_error": {
+                    "success": false,
+                    "message": "The account id listed as a parameter in the request is not related to an account in Roam."
+                  },
+                  "consultant_not_found_error": {
+                    "success": false,
+                    "message": "The consultant email address listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "currency_not_supported_error": {
+                    "success": false,
+                    "message": "The base currency listed as a parameter in the request is not supported for this account in Roam."
+                  },
+                  "beneficiary_id_mismatch_error": {
+                    "success": false,
+                    "message": "The beneficiary id listed as a parameter in the request is not related to this account in Roam or does not match the BSE currency of the charge."
+                  },
+                  "booking_proceeding_error": {
+                    "success": false,
+                    "message": "The booking cannot be edited as it is marked as proceeding."
+                  },
+                  "invalid_fx_rate_error": {
+                    "success": false,
+                    "message": "The booking cannot be edited as the FX rates are not valid."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "create-charge-request": {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@company.com",
+                    "Booking_Id": "BKG-00101",
+                    "BSE_Amount": 1500,
+                    "BSE_Currency": "ZAR",
+                    "Due_Date": "2024-02-09",
+                    "Type": "Balance",
+                    "Beneficiary_1_Id": "BENIF001",
+                    "Beneficiary_2_Id": "BENIF002",
+                    "Beneficiary_3_Id": "BENIF003",
+                    "Supplier_2_Amount": 150,
+                    "Supplier_3_Amount": 50,
+                    "API_Transaction_Id": "API-12345-TRANS"
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "ID of the account related to the booking",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant handling the booking",
+                    "example": "consultant@company.com",
+                    "type": "string"
+                  },
+                  "Booking_Id": {
+                    "description": "Unique ID of the booking",
+                    "example": "BKG-00101",
+                    "type": "string"
+                  },
+                  "BSE_Amount": {
+                    "description": "Amount in base currency with 2 decimal precision",
+                    "example": 1500,
+                    "type": "number"
+                  },
+                  "BSE_Currency": {
+                    "description": "Currency code, 3 characters",
+                    "example": "ZAR",
+                    "type": "string"
+                  },
+                  "Due_Date": {
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "description": "Due date for the charge",
+                    "example": "2024-02-09",
+                    "type": "string"
+                  },
+                  "Type": {
+                    "description": "Type of the charge",
+                    "example": "Balance",
+                    "enum": [
+                      "Deposit",
+                      "Balance",
+                      "Credit",
+                      "Refund"
+                    ],
+                    "type": "string"
+                  },
+                  "Beneficiary_1_Id": {
+                    "description": "ID of the first beneficiary",
+                    "example": "BENIF001",
+                    "type": "string"
+                  },
+                  "Beneficiary_2_Id": {
+                    "description": "ID of the second beneficiary",
+                    "example": "BENIF002",
+                    "type": "string"
+                  },
+                  "Beneficiary_3_Id": {
+                    "description": "ID of the third beneficiary",
+                    "example": "BENIF003",
+                    "type": "string"
+                  },
+                  "Supplier_2_Amount": {
+                    "description": "Amount for the second supplier with 2 decimal precision",
+                    "example": 150,
+                    "type": "number"
+                  },
+                  "Supplier_3_Amount": {
+                    "description": "Amount for the third supplier with 2 decimal precision",
+                    "example": 50,
+                    "type": "number"
+                  },
+                  "API_Transaction_Id": {
+                    "description": "Unique ID for API tracking purposes",
+                    "example": "API-12345-TRANS",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Booking_Id",
+                  "BSE_Amount",
+                  "BSE_Currency",
+                  "Due_Date",
+                  "Type",
+                  "Beneficiary_1_Id"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/update": {
+        "post": {
+          "description": "Updates the `Type` and `BSE_Amount` of an existing charge for the specified booking.",
+          "operationId": "POST_update",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Charge has successfully been updated.",
+                    "Charge_Id": "CHG-00101",
+                    "TXN_Total": 1600,
+                    "BSE_Total": 160,
+                    "BSE_Currency": "ZAR",
+                    "Type": "Balance",
+                    "Due_Date": "2024-02-09",
+                    "Beneficiary_1_Id": "BENIF001",
+                    "Beneficiary_2_Id": "BENIF002",
+                    "Beneficiary_3_Id": "BENIF003",
+                    "Supplier_1_Amount": 1300,
+                    "Supplier_2_Amount": 150,
+                    "Supplier_3_Amount": 50,
+                    "Booked": true,
+                    "Completed": false,
+                    "Paid_Out": true
+                  },
+                  "account_not_found_error": {
+                    "success": false,
+                    "message": "The account id listed as a parameter in the request is not related to an account in Roam."
+                  },
+                  "consultant_not_found_error": {
+                    "success": false,
+                    "message": "The consultant email address listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "booking_not_found_error": {
+                    "success": false,
+                    "message": "The booking id listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "charge_not_found_error": {
+                    "success": false,
+                    "message": "The charge id listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "booking_proceeding_error": {
+                    "success": false,
+                    "message": "The booking cannot be edited as it is marked as proceeding."
+                  },
+                  "invalid_fx_rate_error": {
+                    "success": false,
+                    "message": "The booking cannot be edited as the FX rates are not valid."
+                  },
+                  "charge_completed_error": {
+                    "success": false,
+                    "message": "The charge cannot be edited as it has been completed."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "update-charge-request": {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@company.com",
+                    "Booking_Id": "BKG-00101",
+                    "Charge_Id": "CHG-00101",
+                    "BSE_Amount": 1600,
+                    "Type": "Balance"
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "ID of the account related to the booking",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant handling the booking",
+                    "example": "consultant@company.com",
+                    "type": "string"
+                  },
+                  "Booking_Id": {
+                    "description": "Unique ID of the booking",
+                    "example": "BKG-00101",
+                    "type": "string"
+                  },
+                  "Charge_Id": {
+                    "description": "Unique ID of the charge to be updated",
+                    "example": "CHG-00101",
+                    "type": "string"
+                  },
+                  "BSE_Amount": {
+                    "description": "Updated amount in base currency with 2 decimal precision",
+                    "example": 1500,
+                    "type": "number"
+                  },
+                  "Type": {
+                    "description": "Type of the charge",
+                    "example": "Balance",
+                    "enum": [
+                      "Deposit",
+                      "Balance",
+                      "Credit",
+                      "Refund"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Booking_Id",
+                  "Charge_Id",
+                  "BSE_Amount",
+                  "Type"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/datechange": {
+        "post": {
+          "description": "Updates the `Due_Date` of an existing charge for the specified booking.",
+          "operationId": "POST_datechange",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Charge due date has successfully been updated.",
+                    "Charge_Id": "CHG-00101",
+                    "TXN_Total": 1600,
+                    "BSE_Total": 160,
+                    "BSE_Currency": "ZAR",
+                    "Type": "Balance",
+                    "Due_Date": "2024-02-09",
+                    "Beneficiary_1_Id": "BENIF001",
+                    "Beneficiary_2_Id": "BENIF002",
+                    "Beneficiary_3_Id": "BENIF003",
+                    "Supplier_1_Amount": 1300,
+                    "Supplier_2_Amount": 150,
+                    "Supplier_3_Amount": 50,
+                    "Booked": true,
+                    "Completed": false,
+                    "Paid_Out": true
+                  },
+                  "account_not_found_error": {
+                    "success": false,
+                    "message": "The account id listed as a parameter in the request is not related to an account in Roam."
+                  },
+                  "consultant_not_found_error": {
+                    "success": false,
+                    "message": "The consultant email address listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "booking_not_found_error": {
+                    "success": false,
+                    "message": "The booking id listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "charge_not_found_error": {
+                    "success": false,
+                    "message": "The charge id listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "booking_proceeding_error": {
+                    "success": false,
+                    "message": "The booking cannot be edited as it is marked as proceeding."
+                  },
+                  "invalid_fx_rate_error": {
+                    "success": false,
+                    "message": "The booking cannot be edited as the FX rates are not valid."
+                  },
+                  "charge_booked_error": {
+                    "success": false,
+                    "message": "The charge due date cannot be edited as it has already has been booked in."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "consumes": [
+            "pplication/json"
+          ],
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "request_example": {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@company.com",
+                    "Booking_Id": "BKG-00101",
+                    "Charge_Id": "CHG-00101",
+                    "Due_Date": "2024-03-15"
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "ID of the account related to the booking",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant handling the booking",
+                    "example": "consultant@company.com",
+                    "type": "string"
+                  },
+                  "Booking_Id": {
+                    "description": "Unique ID of the booking",
+                    "example": "BKG-00101",
+                    "type": "string"
+                  },
+                  "Charge_Id": {
+                    "description": "Unique ID of the charge to be updated",
+                    "example": "CHG-00101",
+                    "type": "string"
+                  },
+                  "Due_Date": {
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "description": "New due date for the charge",
+                    "example": "2024-03-15",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Booking_Id",
+                  "Charge_Id",
+                  "Due_Date"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/supplierchange": {
+        "post": {
+          "description": "Update Supplier information of an existing charge for the specified booking.",
+          "operationId": "POST_supplierchange",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Charge suppliers have successfully been updated.",
+                    "Charge_Id": "CHG-00101",
+                    "TXN_Total": 1600,
+                    "BSE_Total": 160,
+                    "BSE_Currency": "ZAR",
+                    "Type": "Balance",
+                    "Due_Date": "2024-02-09",
+                    "Beneficiary_1_Id": "BENIF001",
+                    "Beneficiary_2_Id": "BENIF002",
+                    "Beneficiary_3_Id": "BENIF003",
+                    "Supplier_1_Amount": 1300,
+                    "Supplier_2_Amount": 150,
+                    "Supplier_3_Amount": 50,
+                    "Booked": true,
+                    "Completed": false,
+                    "Paid_Out": true
+                  },
+                  "account_not_found_error": {
+                    "success": false,
+                    "message": "The account id listed as a parameter in the request is not related to an account in Roam."
+                  },
+                  "consultant_not_found_error": {
+                    "success": false,
+                    "message": "The consultant email address listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "booking_not_found_error": {
+                    "success": false,
+                    "message": "The booking id listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "charge_not_found_error": {
+                    "success": false,
+                    "message": "The charge id listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "beneficiary_id_mismatch_error": {
+                    "success": false,
+                    "message": "The beneficiary id listed as a parameter in the request is not related to this account in Roam or does not match the BSE currency of the charge."
+                  },
+                  "supplier_assigned_error": {
+                    "success": false,
+                    "message": "The booking Quote Name listed as a parameter in the request needs to be unique and is already related to another booking in Roam."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "request_example": {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@company.com",
+                    "Booking_Id": "BKG-00101",
+                    "Charge_Id": "CHG-00101",
+                    "Beneficiary_1_Id": "BENIF001",
+                    "Beneficiary_2_Id": "BENIF002",
+                    "Beneficiary_3_Id": "BENIF003",
+                    "Supplier_2_Amount": 150,
+                    "Supplier_3_Amount": 50
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "ID of the account related to the booking",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant handling the booking",
+                    "example": "consultant@company.com",
+                    "type": "string"
+                  },
+                  "Booking_Id": {
+                    "description": "Unique ID of the booking",
+                    "example": "BKG-00101",
+                    "type": "string"
+                  },
+                  "Charge_Id": {
+                    "description": "Unique ID of the charge to be updated",
+                    "example": "CHG-00101",
+                    "type": "string"
+                  },
+                  "Beneficiary_1_Id": {
+                    "description": "ID of the first beneficiary",
+                    "example": "BENIF001",
+                    "type": "string"
+                  },
+                  "Beneficiary_2_Id": {
+                    "description": "ID of the second beneficiary",
+                    "example": "BENIF002",
+                    "type": "string"
+                  },
+                  "Beneficiary_3_Id": {
+                    "description": "ID of the third beneficiary",
+                    "example": "BENIF003",
+                    "type": "string"
+                  },
+                  "Supplier_2_Amount": {
+                    "description": "Amount for the second supplier with 2 decimal precision",
+                    "example": 150,
+                    "type": "number"
+                  },
+                  "Supplier_3_Amount": {
+                    "description": "Amount for the third supplier with 2 decimal precision",
+                    "example": 50,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Booking_Id",
+                  "Charge_Id",
+                  "Beneficiary_1_Id"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/getdetails": {
+        "post": {
+          "description": "Retrieve details of a specific charge for the specified booking.",
+          "operationId": "POST_getdetails",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Charge details have successfully been returned..",
+                    "Charge_Id": "CHG-00101",
+                    "TXN_Total": 1500,
+                    "BSE_Total": 150,
+                    "BSE_Currency": "ZAR",
+                    "Type": "Balance",
+                    "Due_Date": "2024-02-09",
+                    "Beneficiary_1_Id": "BENIF001",
+                    "Beneficiary_2_Id": "BENIF002",
+                    "Beneficiary_3_Id": "BENIF003",
+                    "Supplier_1_Amount": 1300,
+                    "Supplier_2_Amount": 150,
+                    "Supplier_3_Amount": 50,
+                    "Booked": true,
+                    "Completed": false,
+                    "Paid_Out": true
+                  },
+                  "account_not_found_error": {
+                    "success": false,
+                    "message": "The account id listed as a parameter in the request is not related to an account in Roam."
+                  },
+                  "consultant_not_found_error": {
+                    "success": false,
+                    "message": "The consultant email address listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "booking_not_found_error": {
+                    "success": false,
+                    "message": "The booking id listed as a parameter in the request is not related to this account in Roam."
+                  },
+                  "charge_not_found_error": {
+                    "success": false,
+                    "message": "The charge id listed as a parameter in the request is not related to this account in Roam."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "get-charge-request": {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@company.com",
+                    "Booking_Id": "BKG-00101",
+                    "Charge_Id": "CHG-00101"
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "ID of the account related to the booking",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant handling the booking",
+                    "example": "consultant@company.com",
+                    "type": "string"
+                  },
+                  "Booking_Id": {
+                    "description": "Unique ID of the booking",
+                    "example": "BKG-00101",
+                    "type": "string"
+                  },
+                  "Charge_Id": {
+                    "description": "Unique ID of the charge to be retrieved",
+                    "example": "CHG-00101",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Booking_Id",
+                  "Charge_Id"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      }
+    }
+  }

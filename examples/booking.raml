@@ -4,133 +4,6 @@ version: 1.0
 baseUri: https://rest.synatic.com/roamdev/booking
 mediaType: application/json
 
-types:
-  Booking:
-    type: object
-    properties:
-      Account_Id:
-        type: string
-        description: Salesforce Account Id
-        required: true
-        example: "001XXXXXXXXX"
-      Consultant_Email:
-        type: string
-        description: Email of the consultant
-        required: true
-        example: "consultant@company.com"
-      Quote_Reference:
-        type: string
-        description: Quote reference number
-        required: true
-        example: "REF-14534"
-      Passengers:
-        type: integer
-        description: Number of passengers
-        required: true
-        example: 4
-      TXN_Currency:
-        type: string
-        description: Transaction currency
-        required: true
-        example: "GBP"
-      Travel_Start_Date:
-        type: string
-        description: Start date of travel
-        required: true
-        pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
-        example: "2024-10-17"
-      Travel_End_Date:
-        type: string
-        description: End date of travel
-        required: true
-        pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
-        example: "2024-10-25"
-      Client_First_Name:
-        type: string
-        description: First name of the client
-        required: true
-        example: "Jane"
-      Client_Last_Name:
-        type: string
-        description: Last name of the client
-        required: true
-        example: "Doe"
-      Client_Email:
-        type: string
-        description: Email of the client
-        required: true
-        example: "jane.doe@example.com"
-      Itinerary_Link:
-        type: string
-        description: Link to the itinerary (optional)
-        required: false
-        example: "test.itinerarylink.com"
-
-  UpdateBooking:
-    type: object
-    properties:
-      Account_Id:
-        type: string
-        description: Salesforce Account Id
-        required: true
-        example: "001XXXXXXXXX"
-      Consultant_Email:
-        type: string
-        description: Email of the consultant
-        required: true
-        example: "consultant@company.com"
-      Booking_Id:
-        type: string
-        description: Booking reference number
-        required: true
-        example: "BKG-00101"
-      Quote_Reference:
-        type: string
-        description: Quote reference number
-        required: true
-        example: "TEST-98765"
-      Passengers:
-        type: integer
-        description: Number of passengers
-        required: true
-        example: 5
-      TXN_Currency:
-        type: string
-        description: Transaction currency
-        required: true
-        example: "EUR"
-      Travel_Start_Date:
-        type: string
-        description: Start date of travel
-        required: true
-        pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
-        example: "2024-11-15"
-      Travel_End_Date:
-        type: string
-        description: End date of travel
-        required: true
-        pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
-        example: "2024-11-30"
-      Client_First_Name:
-        type: string
-        description: First name of the client
-        required: true
-        example: "Jane"
-      Client_Last_Name:
-        type: string
-        description: Last name of the client
-        required: true
-        example: "Doe"
-      Client_Email:
-        type: string
-        description: Email of the client
-        required: true
-        example: "jane.doe@example.com"
-      Itinerary_Link:
-        type: string
-        description: Link to the itinerary (optional)
-        required: false
-        example: "test.itinerarylink.com"
 
 # Create Booking
 /create:
@@ -140,7 +13,65 @@ types:
     description: Create a new booking with the provided details.
     body:
       application/json:
-        type: Booking
+        type: object
+        properties:
+          Account_Id:
+            type: string
+            description: Salesforce Account Id
+            required: true
+            example: "001XXXXXXXXX"
+          Consultant_Email:
+            type: string
+            description: Email of the consultant
+            required: true
+            example: "consultant@company.com"
+          Quote_Reference:
+            type: string
+            description: Quote reference number
+            required: true
+            example: "REF-14534"
+          Passengers:
+            type: integer
+            description: Number of passengers
+            required: true
+            example: 4
+          TXN_Currency:
+            type: string
+            description: Transaction currency
+            required: true
+            example: "GBP"
+          Travel_Start_Date:
+            type: string
+            description: Start date of travel
+            required: true
+            pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
+            example: "2024-10-17"
+          Travel_End_Date:
+            type: string
+            description: End date of travel
+            required: true
+            pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
+            example: "2024-10-25"
+          Client_First_Name:
+            type: string
+            description: First name of the client
+            required: true
+            example: "Jane"
+          Client_Last_Name:
+            type: string
+            description: Last name of the client
+            required: true
+            example: "Doe"
+          Client_Email:
+            type: string
+            description: Email of the client
+            required: true
+            example: "jane.doe@example.com"
+          Itinerary_Link:
+            type: string
+            description: Link to the itinerary (optional)
+            required: false
+            example: "test.itinerarylink.com"
         examples:
           create-booking-request: |
             {
@@ -198,7 +129,70 @@ types:
     description: Update an existing booking with the provided details.
     body:
       application/json:
-        type: UpdateBooking
+        type: object
+        properties:
+          Account_Id:
+            type: string
+            description: Salesforce Account Id
+            required: true
+            example: "001XXXXXXXXX"
+          Consultant_Email:
+            type: string
+            description: Email of the consultant
+            required: true
+            example: "consultant@company.com"
+          Booking_Id:
+            type: string
+            description: Booking reference number
+            required: true
+            example: "BKG-00101"
+          Quote_Reference:
+            type: string
+            description: Quote reference number
+            required: true
+            example: "TEST-98765"
+          Passengers:
+            type: integer
+            description: Number of passengers
+            required: true
+            example: 5
+          TXN_Currency:
+            type: string
+            description: Transaction currency
+            required: true
+            example: "EUR"
+          Travel_Start_Date:
+            type: string
+            description: Start date of travel
+            required: true
+            pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
+            example: "2024-11-15"
+          Travel_End_Date:
+            type: string
+            description: End date of travel
+            required: true
+            pattern: "^\\d{4}-\\d{2}-\\d{2}$"  # YYYY-MM-DD format
+            example: "2024-11-30"
+          Client_First_Name:
+            type: string
+            description: First name of the client
+            required: true
+            example: "Jane"
+          Client_Last_Name:
+            type: string
+            description: Last name of the client
+            required: true
+            example: "Doe"
+          Client_Email:
+            type: string
+            description: Email of the client
+            required: true
+            example: "jane.doe@example.com"
+          Itinerary_Link:
+            type: string
+            description: Link to the itinerary (optional)
+            required: false
+            example: "test.itinerarylink.com"
         examples:
           update-booking-request: |
             {

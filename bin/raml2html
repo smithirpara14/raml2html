@@ -23,11 +23,11 @@ const argv = yargs
   .string('o')
   .alias('o', 'output')
   .describe('o', 'Output file')
-  
+
   .string('t')
   .alias('t', 'template')
   .describe('t', 'Template path')
-  
+
   .boolean('p')
   .alias('p', 'pretty')
   .describe('p', 'Pretty output (non-minified)')
@@ -40,9 +40,9 @@ const argv = yargs
   .alias('e', 'extensionsAndOverlays')
   .describe('e', 'Extensions and overlays paths')
 
-  .string('theme')  
+  .string('theme')
   .describe('theme', 'Theme name')
-  
+
   .example('raml2html example.raml > example.html')
   .example('raml2html --template my-template.nunjucks -i example.raml -o example.html')
   .example('raml2html --theme raml2html-markdown-theme example.raml > example.html')
