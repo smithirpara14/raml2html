@@ -1,0 +1,669 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Booking API",
+      "version": "1.0"
+    },
+    "host": "rest.synatic.com",
+    "basePath": "/roamdev/booking",
+    "schemes": [
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/create": {
+        "post": {
+          "description": "Create a new booking with the provided details.",
+          "operationId": "POST_create",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Booking has successfully been created.",
+                    "Booking_Id": "BKG-00101",
+                    "Proceeding": true,
+                    "Validity_Date": "2024-10-29",
+                    "TXN_Currency": "USD",
+                    "Confirmed": false,
+                    "Deposit_Due_Date": "2024-10-24",
+                    "Balance_Due_Date": "2026-07-29",
+                    "Booking_Summary_Link": "https://go.roampayments.com/s/booking?id=ABC123XYZ789",
+                    "Quote_Reference": "REF-12345",
+                    "Client_Email": "jane.doe@example.com",
+                    "Client_First_Name": "Jane",
+                    "Client_Last_Name": "Doe",
+                    "Passengers": 4,
+                    "Travel_Start_Date": "2024-12-01",
+                    "Travel_End_Date": "2024-12-10",
+                    "Itinerary_Link": null
+                  },
+                  "error_response": {
+                    "success": false,
+                    "message": "The account id listed as a parameter in the request is not related to an account in Roam."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "create-booking-request": {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@company.com",
+                    "Quote_Reference": "TEST-12345",
+                    "Passengers": 3,
+                    "TXN_Currency": "USD",
+                    "Travel_Start_Date": "2024-12-01",
+                    "Travel_End_Date": "2024-12-10",
+                    "Client_First_Name": "Jane",
+                    "Client_Last_Name": "Doe",
+                    "Client_Email": "jane.doe@example.com",
+                    "Itinerary_Link": "test.itinerarylink.com"
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "Salesforce Account Id",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant",
+                    "example": "consultant@company.com",
+                    "type": "string"
+                  },
+                  "Quote_Reference": {
+                    "description": "Quote reference number",
+                    "example": "REF-14534",
+                    "type": "string"
+                  },
+                  "Passengers": {
+                    "description": "Number of passengers",
+                    "example": 4,
+                    "type": "integer"
+                  },
+                  "TXN_Currency": {
+                    "description": "Transaction currency",
+                    "example": "GBP",
+                    "type": "string"
+                  },
+                  "Travel_Start_Date": {
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "description": "Start date of travel",
+                    "example": "2024-10-17",
+                    "type": "string"
+                  },
+                  "Travel_End_Date": {
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "description": "End date of travel",
+                    "example": "2024-10-25",
+                    "type": "string"
+                  },
+                  "Client_First_Name": {
+                    "description": "First name of the client",
+                    "example": "Jane",
+                    "type": "string"
+                  },
+                  "Client_Last_Name": {
+                    "description": "Last name of the client",
+                    "example": "Doe",
+                    "type": "string"
+                  },
+                  "Client_Email": {
+                    "description": "Email of the client",
+                    "example": "jane.doe@example.com",
+                    "type": "string"
+                  },
+                  "Itinerary_Link": {
+                    "description": "Link to the itinerary (optional)",
+                    "example": "test.itinerarylink.com",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Quote_Reference",
+                  "Passengers",
+                  "TXN_Currency",
+                  "Travel_Start_Date",
+                  "Travel_End_Date",
+                  "Client_First_Name",
+                  "Client_Last_Name",
+                  "Client_Email"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/update": {
+        "post": {
+          "description": "Update an existing booking with the provided details.",
+          "operationId": "POST_update",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Booking has successfully been updated.",
+                    "Booking_Id": "BKG-00101",
+                    "Proceeding": true,
+                    "Validity_Date": "2024-10-29",
+                    "TXN_Currency": "EUR",
+                    "Confirmed": false,
+                    "Deposit_Due_Date": "2024-10-24",
+                    "Balance_Due_Date": "2026-07-29",
+                    "Booking_Summary_Link": "https://go.roampayments.com/s/booking?id=ABC123XYZ789",
+                    "Quote_Reference": "REF-98765",
+                    "Client_Email": "jane.doe@example.com",
+                    "Client_First_Name": "Jane",
+                    "Client_Last_Name": "Doe",
+                    "Passengers": 5,
+                    "Travel_Start_Date": "2024-11-15",
+                    "Travel_End_Date": "2024-11-30",
+                    "Itinerary_Link": null
+                  },
+                  "error_response": {
+                    "success": false,
+                    "message": "The booking ID listed in the request could not be found."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "update-booking-request": {
+                    "Booking_Id": "BKG-00101",
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@company.com",
+                    "Quote_Reference": "TEST-98765",
+                    "Passengers": 5,
+                    "TXN_Currency": "EUR",
+                    "Travel_Start_Date": "2024-11-15",
+                    "Travel_End_Date": "2024-11-30",
+                    "Client_First_Name": "Jane",
+                    "Client_Last_Name": "Doe",
+                    "Client_Email": "jane.doe@example.com",
+                    "Itinerary_Link": "test.itinerarylink.com"
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "Salesforce Account Id",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant",
+                    "example": "consultant@company.com",
+                    "type": "string"
+                  },
+                  "Booking_Id": {
+                    "description": "Booking reference number",
+                    "example": "BKG-00101",
+                    "type": "string"
+                  },
+                  "Quote_Reference": {
+                    "description": "Quote reference number",
+                    "example": "TEST-98765",
+                    "type": "string"
+                  },
+                  "Passengers": {
+                    "description": "Number of passengers",
+                    "example": 5,
+                    "type": "integer"
+                  },
+                  "TXN_Currency": {
+                    "description": "Transaction currency",
+                    "example": "EUR",
+                    "type": "string"
+                  },
+                  "Travel_Start_Date": {
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "description": "Start date of travel",
+                    "example": "2024-11-15",
+                    "type": "string"
+                  },
+                  "Travel_End_Date": {
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "description": "End date of travel",
+                    "example": "2024-11-30",
+                    "type": "string"
+                  },
+                  "Client_First_Name": {
+                    "description": "First name of the client",
+                    "example": "Jane",
+                    "type": "string"
+                  },
+                  "Client_Last_Name": {
+                    "description": "Last name of the client",
+                    "example": "Doe",
+                    "type": "string"
+                  },
+                  "Client_Email": {
+                    "description": "Email of the client",
+                    "example": "jane.doe@example.com",
+                    "type": "string"
+                  },
+                  "Itinerary_Link": {
+                    "description": "Link to the itinerary (optional)",
+                    "example": "test.itinerarylink.com",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Booking_Id",
+                  "Quote_Reference",
+                  "Passengers",
+                  "TXN_Currency",
+                  "Travel_Start_Date",
+                  "Travel_End_Date",
+                  "Client_First_Name",
+                  "Client_Last_Name",
+                  "Client_Email"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/proceeding": {
+        "post": {
+          "description": "Update the proceeding status of a booking.",
+          "operationId": "POST_proceeding",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Booking proceeding has successfully been updated.",
+                    "Booking_Id": "BKG-00101",
+                    "Proceeding": true,
+                    "Validity_Date": "2024-10-29",
+                    "TXN_Currency": "USD",
+                    "Confirmed": false,
+                    "Deposit_Due_Date": "2024-10-24",
+                    "Balance_Due_Date": "2026-07-29",
+                    "Booking_Summary_Link": "https://go.roampayments.com/s/booking?id=ABC123XYZ789",
+                    "Quote_Reference": "REF-12345",
+                    "Client_Email": "jane.doe@example.com",
+                    "Client_First_Name": "Jane",
+                    "Client_Last_Name": "Doe",
+                    "Passengers": 4,
+                    "Travel_Start_Date": "2024-12-01",
+                    "Travel_End_Date": "2024-12-10",
+                    "Itinerary_Link": null
+                  },
+                  "error_response": {
+                    "success": false,
+                    "message": "The booking cannot be edited as the FX rates are not valid."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "request_example": {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@example.com",
+                    "Proceeding": true,
+                    "Booking_Id": "BKG-00101"
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "Salesforce Account Id",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant",
+                    "example": "consultant@example.com",
+                    "type": "string"
+                  },
+                  "Proceeding": {
+                    "description": "Indicates if the booking is proceeding",
+                    "example": true,
+                    "type": "boolean"
+                  },
+                  "Booking_Id": {
+                    "description": "Booking reference number",
+                    "example": "BKG-00101",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Proceeding",
+                  "Booking_Id"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/refreshrates": {
+        "post": {
+          "description": "Refresh rates for a booking.",
+          "operationId": "POST_refreshrates",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Booking rates have sucessfully been refreshed.",
+                    "Booking_Id": "BKG-00101",
+                    "Proceeding": true,
+                    "Validity_Date": "2024-10-29",
+                    "TXN_Currency": "USD",
+                    "Confirmed": false,
+                    "Deposit_Due_Date": "2024-10-24",
+                    "Balance_Due_Date": "2026-07-29",
+                    "Booking_Summary_Link": "https://go.roampayments.com/s/booking?id=ABC123XYZ789",
+                    "Quote_Reference": "REF-12345",
+                    "Client_Email": "jane.doe@example.com",
+                    "Client_First_Name": "Jane",
+                    "Client_Last_Name": "Doe",
+                    "Passengers": 4,
+                    "Travel_Start_Date": "2024-12-01",
+                    "Travel_End_Date": "2024-12-10",
+                    "Itinerary_Link": null
+                  },
+                  "error_response": {
+                    "success": false,
+                    "message": "The booking cannot be edited as it is marked as proceeding."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "request_example": {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@example.com",
+                    "Booking_Id": "BKG-00101",
+                    "Force_Rate_Refresh": true
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "Salesforce Account Id",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant",
+                    "example": "consultant@example.com",
+                    "type": "string"
+                  },
+                  "Booking_Id": {
+                    "description": "Booking reference number",
+                    "example": "BKG-00101",
+                    "type": "string"
+                  },
+                  "Force_Rate_Refresh": {
+                    "description": "Indicates if the force rate refresh is requested",
+                    "example": true,
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Booking_Id",
+                  "Force_Rate_Refresh"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/getdetails": {
+        "post": {
+          "description": "Retrieve details for a specific booking.",
+          "operationId": "POST_getdetails",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Booking details have successfully been returned.",
+                    "Booking_Id": "BKG-00101",
+                    "Proceeding": true,
+                    "Validity_Date": "2024-10-29",
+                    "TXN_Currency": "USD",
+                    "Confirmed": false,
+                    "Deposit_Due_Date": "2024-10-24",
+                    "Balance_Due_Date": "2026-07-29",
+                    "Booking_Summary_Link": "https://go.roampayments.com/s/booking?id=ABC123XYZ789",
+                    "Quote_Reference": "REF-12345",
+                    "Client_Email": "jane.doe@example.com",
+                    "Client_First_Name": "Jane",
+                    "Client_Last_Name": "Doe",
+                    "Passengers": 4,
+                    "Travel_Start_Date": "2024-12-01",
+                    "Travel_End_Date": "2024-12-10",
+                    "Itinerary_Link": null,
+                    "Charges": [
+                      {
+                        "Charge_Id": "CHG-00101",
+                        "BSE_Total": 30000,
+                        "TXN_Total": 1295,
+                        "Supplier_1_Amount": 30000,
+                        "Beneficiary_1_Id": "BENF101",
+                        "Due_Date": "2024-11-14",
+                        "Type": "Deposit",
+                        "BSE_Currency": "ZAR",
+                        "Booked": false,
+                        "Completed": false,
+                        "Paid_Out": false
+                      },
+                      {
+                        "Charge_Id": "CHG-00102",
+                        "BSE_Total": 150,
+                        "TXN_Total": 150,
+                        "Supplier_1_Amount": 50,
+                        "Beneficiary_1_Id": "BENF102",
+                        "Due_Date": "2024-11-14",
+                        "Type": "Balance",
+                        "BSE_Currency": "USD",
+                        "Booked": false,
+                        "Completed": false,
+                        "Paid_Out": false
+                      }
+                    ]
+                  },
+                  "error_response": {
+                    "success": false,
+                    "message": "The booking id listed as a parameter in the request is not related to this account in Roam."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "request_example": {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@example.com",
+                    "Booking_Id": "BKG-00101"
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "Salesforce Account Id",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant",
+                    "example": "consultant@example.com",
+                    "type": "string"
+                  },
+                  "Booking_Id": {
+                    "description": "Booking reference number",
+                    "example": "BKG-00101",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Booking_Id"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/getchrages": {
+        "post": {
+          "description": "Retrieve all charges related to a specific booking.",
+          "operationId": "POST_getchrages",
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "example": {
+                  "successful_response": {
+                    "success": true,
+                    "message": "Charge details have successfully been returned.",
+                    "Charges": [
+                      {
+                        "Charge_Id": "CHG-00101",
+                        "BSE_Total": 30000,
+                        "TXN_Total": 1295,
+                        "Supplier_1_Amount": 30000,
+                        "Beneficiary_1_Id": "BENF101",
+                        "Due_Date": "2024-11-14",
+                        "Type": "Deposit",
+                        "BSE_Currency": "ZAR",
+                        "Booked": false,
+                        "Completed": false,
+                        "Paid_Out": false
+                      },
+                      {
+                        "Charge_Id": "CHG-00102",
+                        "BSE_Total": 150,
+                        "TXN_Total": 150,
+                        "Supplier_1_Amount": 50,
+                        "Beneficiary_1_Id": "BENF102",
+                        "Due_Date": "2024-11-14",
+                        "Type": "Balance",
+                        "BSE_Currency": "USD",
+                        "Booked": false,
+                        "Completed": false,
+                        "Paid_Out": false
+                      }
+                    ]
+                  },
+                  "error_response": {
+                    "success": false,
+                    "message": "The booking id listed as a parameter in the request is not related to this account in Roam."
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "example": {
+                  "request_example": {
+                    "Account_Id": "001XXXXXXXXX",
+                    "Consultant_Email": "consultant@example.com",
+                    "Booking_Id": "BKG-00101"
+                  }
+                },
+                "type": "object",
+                "properties": {
+                  "Account_Id": {
+                    "description": "Salesforce Account Id",
+                    "example": "001XXXXXXXXX",
+                    "type": "string"
+                  },
+                  "Consultant_Email": {
+                    "description": "Email of the consultant",
+                    "example": "consultant@example.com",
+                    "type": "string"
+                  },
+                  "Booking_Id": {
+                    "description": "Booking reference number",
+                    "example": "BKG-00101",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Account_Id",
+                  "Consultant_Email",
+                  "Booking_Id"
+                ]
+              },
+              "in": "body",
+              "name": "body",
+              "required": true
+            }
+          ]
+        }
+      }
+    }
+  }
